@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Waste Management</string>
+    <string name="get_start">Get Start</string>
+    <string name="skip">Skip</string>
+</resources>
