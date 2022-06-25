@@ -2,4 +2,11 @@
     <string name="app_name">Waste Management</string>
     <string name="get_start">Get Start</string>
     <string name="skip">Skip</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="not_a_member_yet_singUp">Not a member yet? SingUp</string>
+    <string name="name">Name</string>
+    <string name="phone_no">Phone No.</string>
+    <string name="address">Address</string>
+    <string name="singup">SingUp</string>
 </resources>

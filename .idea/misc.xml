@@ -5,13 +5,17 @@
       <map>
         <entry key="..\:/Projects/Android/WasteManagement/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2235" />
         <entry key="..\:/Projects/Android/WasteManagement/app/src/main/res/drawable/ic_right.xml" value="0.2235" />
+        <entry key="..\:/Projects/Android/WasteManagement/app/src/main/res/drawable/ic_round_account_circle_24.xml" value="0.2235" />
         <entry key="..\:/Projects/Android/WasteManagement/app/src/main/res/drawable/icon_background.xml" value="0.2235" />
         <entry key="..\:/Projects/Android/WasteManagement/app/src/main/res/drawable/icon_outer_background.xml" value="0.2235" />
+        <entry key="..\:/Projects/Android/WasteManagement/app/src/main/res/drawable/icon_singin_background.xml" value="0.136" />
         <entry key="..\:/Projects/Android/WasteManagement/app/src/main/res/drawable/indicator_active_background.xml" value="0.2235" />
         <entry key="..\:/Projects/Android/WasteManagement/app/src/main/res/drawable/indicator_inactive_background.xml" value="0.2235" />
         <entry key="..\:/Projects/Android/WasteManagement/app/src/main/res/drawable/view_pager_background.xml" value="0.2235" />
         <entry key="..\:/Projects/Android/WasteManagement/app/src/main/res/layout/activity_dashboard.xml" value="0.2234375" />
         <entry key="..\:/Projects/Android/WasteManagement/app/src/main/res/layout/activity_main.xml" value="0.2234375" />
+        <entry key="..\:/Projects/Android/WasteManagement/app/src/main/res/layout/activity_sing_in.xml" value="0.1" />
+        <entry key="..\:/Projects/Android/WasteManagement/app/src/main/res/layout/activity_sing_up.xml" value="0.2" />
         <entry key="..\:/Projects/Android/WasteManagement/app/src/main/res/layout/onbording_item_container.xml" value="0.2234375" />
       </map>
     </option>

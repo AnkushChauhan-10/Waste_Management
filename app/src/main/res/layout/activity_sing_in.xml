@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_gravity="center"
+    android:background="@color/custom_color_primary"
+    android:layout_height="match_parent"
+    tools:context=".SingInActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:background="@drawable/icon_singin_background"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_marginTop="100dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_round_account_circle_24"
+            tools:ignore="ImageContrastCheck" />
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="100dp"
+            android:hint="@string/email"
+            android:textColor="@color/custom_color_text_primary"
+            android:minHeight="48dp"
+            android:autofillHints=""
+            android:textColorHint="@color/custom_color_text_secondary"
+            android:inputType="textEmailAddress" />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:autofillHints=""
+            android:textColor="@color/custom_color_text_primary"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:minHeight="48dp"
+            android:textColorHint="@color/custom_color_text_secondary" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/sinInButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="100dp"
+            android:backgroundTint="@color/custom_color_secondary"
+            android:contentDescription="@string/app_name"
+            android:gravity="center"
+            android:text="LOGIN"
+            android:textSize="30dp"
+            android:textColor="@color/custom_color_text_primary"
+            app:cornerRadius="40dp"/>
+
+        <TextView
+            android:id="@+id/singUpText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/not_a_member_yet_singUp"
+            android:textColor="@color/custom_color_text_primary"
+            android:layout_marginTop="100dp"
+            android:gravity="center"
+            android:layout_marginBottom="50dp"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
