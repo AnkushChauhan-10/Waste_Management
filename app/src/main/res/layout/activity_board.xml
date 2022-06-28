@@ -4,6 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".boardActivity">
+
+    <TextView
+        android:id="@+id/nameDB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:textColor="@color/custom_color_text_primary"
+        android:text="@string/name"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+    <TextView
+        android:id="@+id/emailDB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/custom_color_text_primary"
+        app:layout_constraintTop_toTopOf="@id/nameDB"
+        android:layout_marginTop="50dp"
+        android:text="@string/email"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+    <TextView
+        android:id="@+id/phoneDB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/custom_color_text_primary"
+        android:layout_marginTop="50dp"
+        android:text="phone"
+        app:layout_constraintTop_toTopOf="@id/emailDB"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+    <TextView
+        android:id="@+id/addressDB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/phoneDB"
+        android:layout_marginTop="50dp"
+        android:textColor="@color/custom_color_text_primary"
+        android:text="@string/address"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <Button
+        android:id="@+id/btn"
+        android:text="@string/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

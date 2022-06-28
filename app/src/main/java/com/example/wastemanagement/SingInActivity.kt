@@ -1,7 +1,9 @@
 package com.example.wastemanagement
 
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -24,27 +26,42 @@ class SingInActivity : AppCompatActivity() {
         }
         //Initialize Firebase Auth---------------------------------------------------
         auth= Firebase.auth
-
+        //Authentication -----------------------------------------------------------
         findViewById<MaterialButton>(R.id.sinInButton).setOnClickListener{
 
-            val email = findViewById<EditText>(R.id.email).text.toString()
-            val password =  findViewById<EditText>(R.id.password).text.toString()
+            if(check()) {
+                val email = findViewById<EditText>(R.id.email).text.toString()
+                val password =  findViewById<EditText>(R.id.password).text.toString()
+                auth.signInWithEmailAndPassword(email,password)
+                    .addOnCompleteListener(this) { task ->
+                        if (task.isSuccessful) {
+                            startActivity(Intent(this@SingInActivity, boardActivity::class.java).putExtra("email",email))
+                            finish()
 
-            auth.signInWithEmailAndPassword(email,password)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        startActivity(Intent(this@SingInActivity,boardActivity::class.java))
-                        finish()
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithEmail:failure", task.exception)
+                            Toast.makeText(
+                                baseContext, "Authentication failed." + task.exception.toString(),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            print(task.exception)
+                        }
 
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w(TAG, "signInWithEmail:failure", task.exception)
-                        Toast.makeText(baseContext, "Authentication failed."+task.exception.toString(),
-                            Toast.LENGTH_SHORT).show()
-                        print(task.exception)
                     }
-
-                }
+            }else{
+                Toast.makeText(
+                    this, "Enter The Details.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
+    }
+    private fun check():Boolean{
+        if(findViewById<EditText>(R.id.email).text.toString().trim{it<=' '}.isNotEmpty() &&
+            findViewById<EditText>(R.id.password).text.toString().trim{it<=' '}.isNotEmpty()){
+            return true
+        }
+        return false
     }
 }

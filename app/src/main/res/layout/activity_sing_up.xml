@@ -22,7 +22,7 @@
             android:layout_marginTop="40dp"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/ic_round_account_circle_24"
+            android:src="@drawable/ic_twotone_person_add_alt_1_24"
             tools:ignore="ImageContrastCheck" />
 
         <EditText
@@ -36,6 +36,7 @@
             android:textColor="@color/custom_color_text_primary"
             android:minHeight="48dp"
             android:autofillHints=""
+            android:elevation="1dp"
             android:textColorHint="@color/custom_color_text_secondary"
             android:inputType="textPersonName" />
         <EditText
@@ -50,6 +51,7 @@
             android:textColor="@color/custom_color_text_primary"
             android:minHeight="48dp"
             android:autofillHints=""
+            android:elevation="1dp"
             android:textColorHint="@color/custom_color_text_secondary"
             android:inputType="phone" />
         <EditText
@@ -63,6 +65,7 @@
             android:textColor="@color/custom_color_text_primary"
             android:minHeight="48dp"
             android:autofillHints=""
+            android:elevation="1dp"
             android:textColorHint="@color/custom_color_text_secondary"
             android:inputType="text" />
         <EditText
@@ -76,6 +79,7 @@
             android:textColor="@color/custom_color_text_primary"
             android:minHeight="48dp"
             android:autofillHints=""
+            android:elevation="1dp"
             android:textColorHint="@color/custom_color_text_secondary"
             android:inputType="text" />
         <EditText
@@ -90,6 +94,7 @@
             android:hint="@string/password"
             android:inputType="textPassword"
             android:minHeight="48dp"
+            android:elevation="1dp"
             android:textColorHint="@color/custom_color_text_secondary" />
 
         <com.google.android.material.button.MaterialButton
