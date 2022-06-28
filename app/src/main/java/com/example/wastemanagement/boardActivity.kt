@@ -23,7 +23,7 @@ class boardActivity : AppCompatActivity() {
         val isLogin=sharedPref.getString("Email","1")
         findViewById<Button>(R.id.btn).setOnClickListener {
             sharedPref.edit().remove("Email").apply()
-            var intent = Intent(this,MainActivity::class.java)
+            var intent = Intent(this@boardActivity,SingInActivity::class.java)
             startActivity(intent)
             finish()
         }

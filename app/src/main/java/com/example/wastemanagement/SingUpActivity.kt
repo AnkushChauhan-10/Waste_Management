@@ -31,11 +31,11 @@ class SingUpActivity : AppCompatActivity() {
         //singIn-----------------------------------------------------------------------
         findViewById<MaterialButton>(R.id.registerButton).setOnClickListener{
             //variable --------------------------------------------------------------------
-            val email = findViewById<EditText>(R.id.emailSingUp).text.toString()
+            val email = findViewById<EditText>(R.id.emailSingUp).text.toString().trim()
             val name = findViewById<EditText>(R.id.nameSingUp).text.toString()
-            val password = findViewById<EditText>(R.id.passwordSingUp).text.toString()
+            val password = findViewById<EditText>(R.id.passwordSingUp).text.toString().trim()
             val address = findViewById<EditText>(R.id.addressSingUp).text.toString()
-            val phone_no = findViewById<EditText>(R.id.phoneSingUp).text.toString()
+            val phone_no = findViewById<EditText>(R.id.phoneSingUp).text.toString().trim()
 
             if(check()) {
                 auth.createUserWithEmailAndPassword(email, password)

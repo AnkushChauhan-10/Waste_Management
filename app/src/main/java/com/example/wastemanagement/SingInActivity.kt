@@ -30,8 +30,8 @@ class SingInActivity : AppCompatActivity() {
         findViewById<MaterialButton>(R.id.sinInButton).setOnClickListener{
 
             if(check()) {
-                val email = findViewById<EditText>(R.id.email).text.toString()
-                val password =  findViewById<EditText>(R.id.password).text.toString()
+                val email = findViewById<EditText>(R.id.email).text.toString().trim()
+                val password =  findViewById<EditText>(R.id.password).text.toString().trim()
                 auth.signInWithEmailAndPassword(email,password)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
