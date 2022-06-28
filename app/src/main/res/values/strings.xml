@@ -8,5 +8,8 @@
     <string name="name">Name</string>
     <string name="phone_no">Phone No.</string>
     <string name="address">Address</string>
-    <string name="singup">SingUp</string>
+    <string name="singup">Register</string>
+    <string name="title_activity_board">boardActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

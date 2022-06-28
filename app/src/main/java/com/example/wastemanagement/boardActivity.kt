@@ -3,9 +3,9 @@ package com.example.wastemanagement
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
-class dashboard : AppCompatActivity() {
+class boardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_dashboard)
+        setContentView(R.layout.activity_board)
     }
 }

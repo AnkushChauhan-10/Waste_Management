@@ -38,7 +38,7 @@
             android:minHeight="48dp"
             android:autofillHints=""
             android:textColorHint="@color/custom_color_text_secondary"
-            android:inputType="textEmailAddress" />
+            android:inputType="text" />
 
         <EditText
             android:id="@+id/password"

@@ -37,7 +37,7 @@
             android:minHeight="48dp"
             android:autofillHints=""
             android:textColorHint="@color/custom_color_text_secondary"
-            android:inputType="text" />
+            android:inputType="textPersonName" />
         <EditText
             android:id="@+id/phoneSingUp"
             android:layout_width="match_parent"
@@ -46,6 +46,7 @@
             android:layout_marginEnd="20dp"
             android:layout_marginTop="20dp"
             android:hint="@string/phone_no"
+            android:text=""
             android:textColor="@color/custom_color_text_primary"
             android:minHeight="48dp"
             android:autofillHints=""
@@ -76,7 +77,7 @@
             android:minHeight="48dp"
             android:autofillHints=""
             android:textColorHint="@color/custom_color_text_secondary"
-            android:inputType="textEmailAddress" />
+            android:inputType="text" />
         <EditText
             android:id="@+id/passwordSingUp"
             android:layout_width="match_parent"
@@ -92,7 +93,7 @@
             android:textColorHint="@color/custom_color_text_secondary" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/sinInButton"
+            android:id="@+id/registerButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
