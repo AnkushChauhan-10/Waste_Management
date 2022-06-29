@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private fun navigateToDashboard(){
-        startActivity(Intent(this,boardActivity::class.java))
+        startActivity(Intent(this,mainScreen::class.java))
         finish()
     }
     private fun setCurrentIndicator(position:Int){

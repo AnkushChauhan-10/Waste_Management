@@ -70,7 +70,6 @@ class boardActivity : AppCompatActivity() {
         {
             setText(isLogin.toString())
         }
-
     }
     private fun setText(userId:String){
         db = Firebase.firestore

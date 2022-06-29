@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:enabled="true">
+    <item android:id="@+id/ic_setting"
+        android:title="@string/action_settings"
+        android:icon="@drawable/ic_outline_settings_24"/>
+    </group>
+    <item android:title="Profile">
+        <menu>
+            <item android:id="@+id/ic_logout"
+                android:title="Log Out"
+                android:icon="@drawable/ic_outline_exit_to_app_24"/>
+        </menu>
+    </item>
+</menu>

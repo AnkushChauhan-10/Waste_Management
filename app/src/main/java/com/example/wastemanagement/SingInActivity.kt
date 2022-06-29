@@ -35,7 +35,7 @@ class SingInActivity : AppCompatActivity() {
                 auth.signInWithEmailAndPassword(email,password)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
-                            startActivity(Intent(this@SingInActivity, boardActivity::class.java).putExtra("email",email))
+                            startActivity(Intent(this@SingInActivity, mainScreen::class.java).putExtra("email",email))
                             finish()
 
                         } else {

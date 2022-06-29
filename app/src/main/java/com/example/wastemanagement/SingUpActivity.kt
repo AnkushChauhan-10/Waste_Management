@@ -53,7 +53,7 @@ class SingUpActivity : AppCompatActivity() {
                                 .document(email).set(user)
                                 .addOnSuccessListener { documentReference ->
                                     Log.d(TAG, "DocumentSnapshot added with ID:")
-                                    startActivity(Intent(this@SingUpActivity, boardActivity::class.java).putExtra("email",email))
+                                    startActivity(Intent(this@SingUpActivity, mainScreen::class.java).putExtra("email",email))
                                     finish()
                                 }
                                 .addOnFailureListener { e ->
