@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.wastemanagement" >
+    package="com.example.wastemanagement">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -16,11 +16,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WasteManagement"
-        tools:targetApi="31" >
+        tools:targetApi="31">
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBqxeGHvEtYSpYx2HaocN3SnGf4Pj-aG64" />
+            android:value="tools:context=" />
 
+        <activity
+            android:name=".mainScreen"
+            android:exported="false" />
         <activity
             android:name=".boardActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -35,7 +39,7 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -34,6 +34,13 @@ class boardActivity : AppCompatActivity() {
         //SharedPre-----------------------------------------------------------
         val sharedPref=this?.getPreferences(Context.MODE_PRIVATE)?:return
         val isLogin=sharedPref.getString("Email","1")
+
+        findViewById<Button>(R.id.btnMap).setOnClickListener {
+            var intent = Intent(this@boardActivity,mainScreen::class.java)
+            startActivity(intent)
+            finish()
+        }
+
         findViewById<Button>(R.id.btn).setOnClickListener {
             sharedPref.edit().remove("Email").apply()
             var intent = Intent(this@boardActivity,SingInActivity::class.java)
