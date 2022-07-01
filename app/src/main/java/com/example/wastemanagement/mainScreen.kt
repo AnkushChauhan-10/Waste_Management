@@ -4,13 +4,23 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationManager
+import android.media.audiofx.Equalizer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.internal.NavigationMenuView
@@ -31,9 +41,12 @@ class mainScreen : AppCompatActivity() {
     private lateinit var userId : String
     private lateinit var sharedPref : SharedPreferences
 
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_screen)
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         checkUser()
         drawer()
     }
@@ -89,7 +102,7 @@ class mainScreen : AppCompatActivity() {
         bottomNavigation.setOnItemSelectedListener{
             when(it.itemId){
                 R.id.ic_home -> replaceFragment(homeFragment)
-                R.id.ic_map -> replaceFragment(mapsFragment)
+                R.id.ic_map -> getCurrentLocation()//replaceFragment(mapsFragment)
                 R.id.ic_menu -> drawerLayout.openDrawer(GravityCompat.END)
             }
             true
@@ -118,4 +131,69 @@ class mainScreen : AppCompatActivity() {
             transaction.commit()
         }
     }
+
+    companion object {
+        private const val PERMMISSION_REQUEST = 1
+    }
+
+    private fun getCurrentLocation(){
+        if(checkPermissions()){
+            if(isLocationEnable()){
+                fusedLocationProviderClient.lastLocation.addOnCompleteListener(this){ task->
+                    val location:Location?=task.result
+                    if(location == null){
+                        //---------------
+                    }else{
+                        Toast.makeText(this,""+location.latitude+"="+location.longitude,Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }else{
+                Toast.makeText(this,"Turn on location",Toast.LENGTH_SHORT).show()
+                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                startActivity(intent)
+            }
+        }else{
+                requestPermissions()
+        }
+    }
+
+    private fun isLocationEnable():Boolean{
+        val locationManager:LocationManager=getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)||locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+    }
+
+    private fun requestPermissions(){
+        ActivityCompat.requestPermissions(
+            this, arrayOf(android.Manifest.permission.ACCESS_COARSE_LOCATION,android.Manifest.permission.ACCESS_FINE_LOCATION),
+            PERMMISSION_REQUEST
+        )
+    }
+
+    private fun checkPermissions():Boolean{
+        if(ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_COARSE_LOCATION)==PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED){
+            return true
+        }
+        return false
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if(requestCode != PERMMISSION_REQUEST){
+            if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(this,"granted",Toast.LENGTH_SHORT).show()
+                getCurrentLocation()
+            }
+            else{
+                Toast.makeText(this,"dddddd",Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+
 }
