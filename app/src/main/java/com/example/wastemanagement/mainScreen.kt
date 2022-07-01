@@ -211,11 +211,11 @@ class mainScreen : AppCompatActivity() {
         dataBaseReference =
             FirebaseDatabase.getInstance("https://waste-b6bcb-default-rtdb.asia-southeast1.firebasedatabase.app/")
                 .getReference("Locations")
-        dataBaseReference.child(userId).setValue(user)
+        dataBaseReference.child("app").setValue(user)
             .addOnSuccessListener {
                 Toast.makeText(this, "database", Toast.LENGTH_SHORT).show()
             }.addOnFailureListener {
-                Toast.makeText(this, "Nooooo database", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "No database", Toast.LENGTH_SHORT).show()
             }
     }
 

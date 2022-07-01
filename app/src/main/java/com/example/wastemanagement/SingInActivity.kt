@@ -35,8 +35,23 @@ class SingInActivity : AppCompatActivity() {
                 auth.signInWithEmailAndPassword(email,password)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
-                            startActivity(Intent(this@SingInActivity, mainScreen::class.java).putExtra("email",email))
-                            finish()
+                            if(email=="admin0010@gmail.com"){
+                                startActivity(
+                                    Intent(
+                                        this@SingInActivity,
+                                        boardActivity::class.java
+                                    ).putExtra("email", email)
+                                )
+                                finish()
+                            }else {
+                                startActivity(
+                                    Intent(
+                                        this@SingInActivity,
+                                        mainScreen::class.java
+                                    ).putExtra("email", email)
+                                )
+                                finish()
+                            }
 
                         } else {
                             // If sign in fails, display a message to the user.
