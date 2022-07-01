@@ -11,7 +11,9 @@ import android.media.audiofx.Equalizer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
+import android.text.BoringLayout
 import android.util.Log
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -25,13 +27,15 @@ import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.internal.NavigationMenuView
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-
-private val homeFragment = HomeFragment()
-private val mapsFragment = MapFragment()
-
+import com.google.type.LatLng
 
 class mainScreen : AppCompatActivity() {
 
@@ -40,6 +44,10 @@ class mainScreen : AppCompatActivity() {
     private lateinit var db : FirebaseFirestore
     private lateinit var userId : String
     private lateinit var sharedPref : SharedPreferences
+    private lateinit var location:Location
+    private lateinit var dataBaseReference: DatabaseReference
+    private  var isLocation : Boolean = false
+
 
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
@@ -49,6 +57,10 @@ class mainScreen : AppCompatActivity() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         checkUser()
         drawer()
+        findViewById<Button>(R.id.submit).setOnClickListener {
+            getCurrentLocation()
+        }
+
     }
 
     private fun checkUser(){
@@ -93,7 +105,6 @@ class mainScreen : AppCompatActivity() {
     }
 
     private fun drawer(){
-        replaceFragment(homeFragment)
 
         drawerLayout = findViewById(R.id.drawer_layout)
         menue_draw_view = findViewById<NavigationView>(R.id.menuDrawer_view)
@@ -101,8 +112,11 @@ class mainScreen : AppCompatActivity() {
         val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottomNavigation)
         bottomNavigation.setOnItemSelectedListener{
             when(it.itemId){
-                R.id.ic_home -> replaceFragment(homeFragment)
-                R.id.ic_map -> getCurrentLocation()//replaceFragment(mapsFragment)
+               // R.id.ic_home ->
+                R.id.ic_map -> {
+                    getCurrentLocation()
+                    if(isLocation){startActivity(Intent(this,MapsActivity::class.java))}
+                }
                 R.id.ic_menu -> drawerLayout.openDrawer(GravityCompat.END)
             }
             true
@@ -124,13 +138,6 @@ class mainScreen : AppCompatActivity() {
             true
         }
     }
-    private fun replaceFragment(fragment:Fragment){
-        if(fragment!=null){
-            val transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.screenFrameLayout,fragment)
-            transaction.commit()
-        }
-    }
 
     companion object {
         private const val PERMMISSION_REQUEST = 1
@@ -140,11 +147,14 @@ class mainScreen : AppCompatActivity() {
         if(checkPermissions()){
             if(isLocationEnable()){
                 fusedLocationProviderClient.lastLocation.addOnCompleteListener(this){ task->
-                    val location:Location?=task.result
-                    if(location == null){
+                    val location1:Location?=task.result
+                    if(location1 == null){
                         //---------------
                     }else{
+                        isLocation=true
+                        location=location1
                         Toast.makeText(this,""+location.latitude+"="+location.longitude,Toast.LENGTH_SHORT).show()
+                        saveLocation()
                     }
                 }
             }else{
@@ -195,5 +205,18 @@ class mainScreen : AppCompatActivity() {
         }
     }
 
+    private fun saveLocation(){
+
+        val user = userLocation(location.latitude, location.longitude)
+        dataBaseReference =
+            FirebaseDatabase.getInstance("https://waste-b6bcb-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                .getReference("Locations")
+        dataBaseReference.child(userId).setValue(user)
+            .addOnSuccessListener {
+                Toast.makeText(this, "database", Toast.LENGTH_SHORT).show()
+            }.addOnFailureListener {
+                Toast.makeText(this, "Nooooo database", Toast.LENGTH_SHORT).show()
+            }
+    }
 
 }
