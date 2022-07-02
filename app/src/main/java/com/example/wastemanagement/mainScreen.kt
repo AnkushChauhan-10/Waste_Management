@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.graphics.Point
 import android.location.Location
 import android.location.LocationManager
 import android.media.audiofx.Equalizer
@@ -14,6 +15,7 @@ import android.provider.Settings
 import android.text.BoringLayout
 import android.util.Log
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -36,17 +38,17 @@ import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.type.LatLng
-
+private lateinit var userId : String
 class mainScreen : AppCompatActivity() {
 
     private lateinit var drawerLayout : DrawerLayout
     private lateinit var menue_draw_view : NavigationView
     private lateinit var db : FirebaseFirestore
-    private lateinit var userId : String
     private lateinit var sharedPref : SharedPreferences
     private lateinit var location:Location
     private lateinit var dataBaseReference: DatabaseReference
     private  var isLocation : Boolean = false
+    private var point : Int = 0
 
 
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
@@ -60,7 +62,6 @@ class mainScreen : AppCompatActivity() {
         findViewById<Button>(R.id.submit).setOnClickListener {
             getCurrentLocation()
         }
-
     }
 
     private fun checkUser(){
@@ -114,8 +115,13 @@ class mainScreen : AppCompatActivity() {
             when(it.itemId){
                // R.id.ic_home ->
                 R.id.ic_map -> {
-                    getCurrentLocation()
-                    if(isLocation){startActivity(Intent(this,MapsActivity::class.java))}
+
+                    if(!isLocation){
+                        getCurrentLocation()
+                    } else{
+                        startActivity(Intent(this,MapsActivity::class.java))
+                        finish()
+                    }
                 }
                 R.id.ic_menu -> drawerLayout.openDrawer(GravityCompat.END)
             }
@@ -200,22 +206,21 @@ class mainScreen : AppCompatActivity() {
                 getCurrentLocation()
             }
             else{
-                Toast.makeText(this,"dddddd",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"denied",Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     private fun saveLocation(){
-
         val user = userLocation(location.latitude, location.longitude)
         dataBaseReference =
             FirebaseDatabase.getInstance("https://waste-b6bcb-default-rtdb.asia-southeast1.firebasedatabase.app/")
-                .getReference("Locations")
-        dataBaseReference.child("app").setValue(user)
+                .getReference("usersLocation")
+        dataBaseReference.push().setValue(user)
             .addOnSuccessListener {
-                Toast.makeText(this, "database", Toast.LENGTH_SHORT).show()
+               // Toast.makeText(this, "Save Data", Toast.LENGTH_SHORT).show()
             }.addOnFailureListener {
-                Toast.makeText(this, "No database", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this, "No database", Toast.LENGTH_SHORT).show()
             }
     }
 

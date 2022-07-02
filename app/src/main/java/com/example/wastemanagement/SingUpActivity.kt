@@ -46,8 +46,7 @@ class SingUpActivity : AppCompatActivity() {
                                 "phone_no" to phone_no,
                                 "address" to address,
                                 "email" to email,
-                                "password" to password,
-                                "point" to 0
+                                "password" to password
                             )
                             db = Firebase.firestore
                             db.collection("users")
@@ -90,5 +89,11 @@ class SingUpActivity : AppCompatActivity() {
             return true
         }
         return false
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        startActivity(Intent(this,mainScreen::class.java))
+        finish()
     }
 }

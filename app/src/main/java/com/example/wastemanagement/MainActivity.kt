@@ -31,18 +31,13 @@ class MainActivity : AppCompatActivity() {
             listOf(
                 OnboardingItem(
                     onboardingImage = R.drawable.a,
-                    title = "Manage",
-                    description = "djjkahdjkahdjhdjbb dhg hag d djag iuadjshjghjgd "
+                    title = "WELCOME TO WASTE MANAGEMENT APP",
+                    description = "Be the change you want to see in the world : Reduce , Reuse , Recycle "
                 ),
                 OnboardingItem(
                     onboardingImage = R.drawable.b,
-                    title = "Manage",
-                    description = "djjkahdjkahdjhdjbb dhg hag d djag iuadjshjghjgd "
-                ),
-                OnboardingItem(
-                    onboardingImage = R.drawable.c,
-                    title = "Manage",
-                    description = "djjkahdjkahdjhdjbb dhg hag d djag iuadjshjghjgd "
+                    title = "Lets Do",
+                    description = "Give your waste to municipal solid waste truck"
                 )
             )
         )

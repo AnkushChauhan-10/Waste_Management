@@ -35,17 +35,51 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-            <EditText
+            <TextView
                 android:id="@+id/point"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:minHeight="48dp"
-                android:text="Point"
+                android:text="Enter the waste Details"
+                android:textSize="50dp"
+                android:textStyle="bold"
                 android:textColor="@color/custom_color_text_primary"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.468"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.32" />
+            <EditText
+                android:id="@+id/wasteType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:minHeight="48dp"
+                android:textAlignment="center"
+                android:elevation="1dp"
+                android:hint="Waste Type"
+                android:textColorHint="@color/custom_color_text_primary"
+                android:textColor="@color/custom_color_text_primary"
+                app:layout_constraintStart_toStartOf="@id/point"
+                app:layout_constraintTop_toBottomOf="@id/point"
+                app:layout_constraintEnd_toEndOf="@id/point"/>
+            <EditText
+                android:id="@+id/wasteWeight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:minHeight="48dp"
+                android:textAlignment="center"
+                android:hint="Weight/Kg"
+                android:elevation="1dp"
+                android:inputType="numberDecimal"
+                android:textColorHint="@color/custom_color_text_primary"
+                android:textColor="@color/custom_color_text_primary"
+                app:layout_constraintStart_toStartOf="@id/wasteType"
+                app:layout_constraintTop_toBottomOf="@id/wasteType"
+                app:layout_constraintEnd_toEndOf="@id/wasteType"/>
 
             <Button
                 android:id="@+id/submit"
@@ -54,7 +88,8 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/point"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

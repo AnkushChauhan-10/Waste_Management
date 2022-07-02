@@ -20,16 +20,15 @@ import com.google.android.gms.location.*
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class boardActivity : AppCompatActivity(),OnMapReadyCallback {
 
-    private lateinit var db : FirebaseFirestore
     private lateinit var userId : String
+    private lateinit var db : FirebaseFirestore
     private lateinit var location:Location
     private lateinit var dataBaseReference: DatabaseReference
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
@@ -41,63 +40,12 @@ class boardActivity : AppCompatActivity(),OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_board)
         //SharedPre-----------------------------------------------------------
-        val sharedPref=this?.getPreferences(Context.MODE_PRIVATE)?:return
-        val isLogin=sharedPref.getString("Email","1")
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         getCurrentLocation()
 
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.mapFragment) as SupportMapFragment
         mapFragment.getMapAsync(this)
-
-        findViewById<Button>(R.id.btnMap).setOnClickListener {
-            var intent = Intent(this@boardActivity,mainScreen::class.java)
-            startActivity(intent)
-            finish()
-        }
-
-        findViewById<Button>(R.id.btn).setOnClickListener {
-            sharedPref.edit().remove("Email").apply()
-            var intent = Intent(this@boardActivity,SingInActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
-
-        if(isLogin=="1")
-        {
-            var email=intent.getStringExtra("email")
-            userId = email.toString()
-            if(email!=null)
-            {
-                setText(email)
-                with(sharedPref.edit())
-                {
-                    putString("Email",email)
-                    apply()
-                }
-            }
-            else{
-                var intent = Intent(this,SingInActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
-        }else
-        {
-            setText(isLogin.toString())
-        }
-    }
-    private fun setText(userId:String){
-        db = Firebase.firestore
-        db.collection("users").document(userId).get().addOnSuccessListener { result ->
-
-            findViewById<TextView>(R.id.nameDB).text = result.get("name").toString()
-            findViewById<TextView>(R.id.emailDB).text = result.get("email").toString()
-            findViewById<TextView>(R.id.phoneDB).text = result.get("phone_no").toString()
-            findViewById<TextView>(R.id.addressDB).text = result.get("address").toString()
-
-        }.addOnFailureListener { exception ->
-            Log.w(TAG, "Error getting documents.", exception)
-        }
     }
 
 
@@ -184,11 +132,8 @@ class boardActivity : AppCompatActivity(),OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-
+        setMarks()
         // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
         getLocationUpdates()
         startLocation()
     }
@@ -206,7 +151,7 @@ class boardActivity : AppCompatActivity(),OnMapReadyCallback {
                     val loc = locationResult.lastLocation
                     if(loc != null){
                         val latLag = LatLng(loc.latitude,loc.longitude)
-                        toast(latLag);
+                        //toast(latLag);
                         println("${latLag.latitude} and ${latLag.longitude}")
                         val user = userLocation(latLag.latitude, latLag.longitude)
                         dataBaseReference =
@@ -232,8 +177,35 @@ class boardActivity : AppCompatActivity(),OnMapReadyCallback {
         )
     }
 
-    private fun toast(location:LatLng){
+    private fun toast(location:userLocation){
         Toast.makeText(this,"${location.latitude} and ${location.longitude}",Toast.LENGTH_SHORT).show()
+    }
+
+    private fun setMarks(){
+        var array = arrayListOf<Location>()
+        dataBaseReference =
+            FirebaseDatabase.getInstance("https://waste-b6bcb-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                .getReference("usersLocation")
+            dataBaseReference.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        for (userSnapshot in snapshot.children) {
+                           var loc = userSnapshot.getValue(userLocation::class.java) as userLocation
+                           var l = userLocation(loc.latitude,loc.longitude)
+                            var lat = l.latitude.toString()
+                            var lng = l.longitude.toString()
+                            var marker = LatLng(lat.toDouble(),lng.toDouble())
+                            var mar=MarkerOptions().position(marker).title("Truck")
+                            mMap.addMarker(mar)
+                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker,15f))
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+            })
     }
 
 }
