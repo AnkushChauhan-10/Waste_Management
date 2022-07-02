@@ -61,6 +61,7 @@ class mainScreen : AppCompatActivity() {
         drawer()
         findViewById<Button>(R.id.submit).setOnClickListener {
             getCurrentLocation()
+            saveLocation()
         }
     }
 
@@ -159,8 +160,7 @@ class mainScreen : AppCompatActivity() {
                     }else{
                         isLocation=true
                         location=location1
-                        Toast.makeText(this,""+location.latitude+"="+location.longitude,Toast.LENGTH_SHORT).show()
-                        saveLocation()
+                        //Toast.makeText(this,""+location.latitude+"="+location.longitude,Toast.LENGTH_SHORT).show()
                     }
                 }
             }else{
