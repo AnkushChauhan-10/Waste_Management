@@ -46,7 +46,8 @@ class SingUpActivity : AppCompatActivity() {
                                 "phone_no" to phone_no,
                                 "address" to address,
                                 "email" to email,
-                                "password" to password
+                                "password" to password,
+                                "point" to 0
                             )
                             db = Firebase.firestore
                             db.collection("users")

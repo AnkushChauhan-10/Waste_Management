@@ -182,7 +182,6 @@ class boardActivity : AppCompatActivity(),OnMapReadyCallback {
     }
 
     private fun setMarks(){
-        var array = arrayListOf<Location>()
         dataBaseReference =
             FirebaseDatabase.getInstance("https://waste-b6bcb-default-rtdb.asia-southeast1.firebasedatabase.app/")
                 .getReference("usersLocation")
@@ -195,7 +194,8 @@ class boardActivity : AppCompatActivity(),OnMapReadyCallback {
                             var lat = l.latitude.toString()
                             var lng = l.longitude.toString()
                             var marker = LatLng(lat.toDouble(),lng.toDouble())
-                            var mar=MarkerOptions().position(marker).title("Truck")
+                            var title = userSnapshot.key.toString()
+                            var mar=MarkerOptions().position(marker).title(title)
                             mMap.addMarker(mar)
                             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker,15f))
                         }

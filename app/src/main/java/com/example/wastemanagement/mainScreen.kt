@@ -29,6 +29,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.internal.NavigationMenuView
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.textview.MaterialTextView
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
@@ -38,14 +39,13 @@ import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.type.LatLng
-private lateinit var userId : String
+
 class mainScreen : AppCompatActivity() {
 
     private lateinit var drawerLayout : DrawerLayout
     private lateinit var menue_draw_view : NavigationView
     private lateinit var db : FirebaseFirestore
     private lateinit var sharedPref : SharedPreferences
-    private lateinit var location:Location
     private lateinit var dataBaseReference: DatabaseReference
     private  var isLocation : Boolean = false
     private var point : Int = 0
@@ -60,8 +60,11 @@ class mainScreen : AppCompatActivity() {
         checkUser()
         drawer()
         findViewById<Button>(R.id.submit).setOnClickListener {
-            getCurrentLocation()
-            saveLocation()
+            if(isLocation){
+                saveLocation()
+            }else {
+                getCurrentLocation()
+            }
         }
     }
 
@@ -71,7 +74,6 @@ class mainScreen : AppCompatActivity() {
         if(isLogin=="1")
         {
             var email=intent.getStringExtra("email")
-            userId = email.toString()
             if(email!=null)
             {
                 setText(email)
@@ -98,8 +100,9 @@ class mainScreen : AppCompatActivity() {
 
             findViewById<TextView>(R.id.personName).text = result.get("name").toString()
             findViewById<TextView>(R.id.personEmail).text = result.get("email").toString()
-           // findViewById<TextView>(R.id.phoneDB).text = result.get("phone_no").toString()
-           // findViewById<TextView>(R.id.addressDB).text = result.get("address").toString()
+            findViewById<TextView>(R.id.point).text = result.get("point").toString()
+            // findViewById<TextView>(R.id.phoneDB).text = result.get("phone_no").toString()
+            // findViewById<TextView>(R.id.addressDB).text = result.get("address").toString()
 
         }.addOnFailureListener { exception ->
             Log.w(ContentValues.TAG, "Error getting documents.", exception)
@@ -114,7 +117,7 @@ class mainScreen : AppCompatActivity() {
         val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottomNavigation)
         bottomNavigation.setOnItemSelectedListener{
             when(it.itemId){
-               // R.id.ic_home ->
+                // R.id.ic_home ->
                 R.id.ic_map -> {
 
                     if(!isLocation){
@@ -131,15 +134,15 @@ class mainScreen : AppCompatActivity() {
         menue_draw_view.setNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.ic_logout -> {
-                                    sharedPref.edit().remove("Email").apply()
-                                    var intent = Intent(this@mainScreen,SingInActivity::class.java)
-                                    startActivity(intent)
-                                    finish()
+                    sharedPref.edit().remove("Email").apply()
+                    var intent = Intent(this@mainScreen,SingInActivity::class.java)
+                    startActivity(intent)
+                    finish()
                 }
                 R.id.ic_setting -> {
-                                    var intent = Intent(this@mainScreen,boardActivity::class.java)
-                                    startActivity(intent)
-                                    finish()
+                    var intent = Intent(this@mainScreen,boardActivity::class.java)
+                    startActivity(intent)
+                    finish()
                 }
             }
             true
@@ -153,23 +156,14 @@ class mainScreen : AppCompatActivity() {
     private fun getCurrentLocation(){
         if(checkPermissions()){
             if(isLocationEnable()){
-                fusedLocationProviderClient.lastLocation.addOnCompleteListener(this){ task->
-                    val location1:Location?=task.result
-                    if(location1 == null){
-                        //---------------
-                    }else{
-                        isLocation=true
-                        location=location1
-                        //Toast.makeText(this,""+location.latitude+"="+location.longitude,Toast.LENGTH_SHORT).show()
-                    }
-                }
+                isLocation=true
             }else{
                 Toast.makeText(this,"Turn on location",Toast.LENGTH_SHORT).show()
                 val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                 startActivity(intent)
             }
         }else{
-                requestPermissions()
+            requestPermissions()
         }
     }
 
@@ -212,16 +206,31 @@ class mainScreen : AppCompatActivity() {
     }
 
     private fun saveLocation(){
-        val user = userLocation(location.latitude, location.longitude)
-        dataBaseReference =
-            FirebaseDatabase.getInstance("https://waste-b6bcb-default-rtdb.asia-southeast1.firebasedatabase.app/")
-                .getReference("usersLocation")
-        dataBaseReference.push().setValue(user)
-            .addOnSuccessListener {
-               // Toast.makeText(this, "Save Data", Toast.LENGTH_SHORT).show()
-            }.addOnFailureListener {
-                //Toast.makeText(this, "No database", Toast.LENGTH_SHORT).show()
+        fusedLocationProviderClient.lastLocation.addOnCompleteListener(this){ task->
+            val location:Location?=task.result
+            if(location == null){
+                //---------------
+            }else{
+                val wasteType = findViewById<EditText>(R.id.wasteType).text.toString()
+                val wasteWeight= findViewById<EditText>(R.id.wasteWeight).text.toString().toFloat()
+                val email = findViewById<MaterialTextView>(R.id.personEmail).text.toString().toString()
+                val user = userLocation(location.latitude, location.longitude,wasteType,wasteWeight)
+                val name= findViewById<MaterialTextView>(R.id.personName).text.toString()
+                val point = (findViewById<TextView>(R.id.point).text.toString().toInt()+wasteWeight).toInt()
+                dataBaseReference =
+                    FirebaseDatabase.getInstance("https://waste-b6bcb-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                        .getReference("usersLocation")
+                dataBaseReference.child(name).setValue(user)
+                    .addOnSuccessListener {
+                        db = Firebase.firestore
+                        db.collection("users").document(email).update("point",point)
+                        // Toast.makeText(this, "Save Data", Toast.LENGTH_SHORT).show()
+                    }.addOnFailureListener {
+                        //Toast.makeText(this, "No database", Toast.LENGTH_SHORT).show()
+                    }
+                //Toast.makeText(this,""+location.latitude+"="+location.longitude,Toast.LENGTH_SHORT).show()
             }
+        }
     }
 
 }
